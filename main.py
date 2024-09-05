@@ -9,19 +9,16 @@ icon = pygame.image.load("ufo.png")
 pygame.display.set_icon(icon)
 
 
-#playerimg
 playerImage = pygame.image.load("player.png")
-playerX = 10 
-playerY = 260
+playerX = 376 
+playerY = 510
 
 playerY_change = 0
-
+playerX_change = 0
 
 
 def player(x, y):
 	screen.blit(playerImage, (x, y))
-
-
 
 
 running = True
@@ -33,21 +30,21 @@ while running:
 			running = False
 
 		if event.type == pygame.KEYDOWN:
-			if event.key == pygame.K_UP:
-				playerY_change = -0.3
-			if event.key == pygame.K_DOWN:
-				playerY_change = 0.3
+			if event.key == pygame.K_LEFT:
+				playerX_change = -0.3
+			if event.key == pygame.K_RIGHT:
+				playerX_change = 0.3
 		if event.type == pygame.KEYUP:
-			if event.key == pygame.K_UP or event.key == pygame.K_DOWN:
-				playerY_change = 0
+			if event.key == pygame.K_RIGHT or event.key == pygame.K_LEFT:
+				playerX_change = 0
 
 
-	playerY += playerY_change
+	playerX += playerX_change
 
-	if playerY <= 0:
-		playerY = 0
-	elif playerY >= 536:
-		playerY = 536
+	if playerX <= 0:
+		playerX = 0
+	elif playerX >= 736:
+		playerX = 736
 
 
 	
