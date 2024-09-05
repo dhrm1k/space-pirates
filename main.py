@@ -16,10 +16,18 @@ playerY = 510
 playerY_change = 0
 playerX_change = 0
 
+enemyImage = pygame.image.load("enemy.png")
+enemyX = 20
+enemyY = 20
+enemyX_change = 0.2
+enemyY_change = 40
+
 
 def player(x, y):
 	screen.blit(playerImage, (x, y))
 
+def enemy(x, y):
+	screen.blit(enemyImage, (x, y))
 
 running = True
 
@@ -46,11 +54,20 @@ while running:
 	elif playerX >= 736:
 		playerX = 736
 
+	if enemyX <= 0:
+		enemyX_change = 0.2
+		enemyY += enemyY_change
 
-	
+	elif enemyX >= 736:
+		enemyX_change = -0.2
+		enemyY += enemyY_change
+		
+
+	enemyX += enemyX_change
 
 
 
+	enemy(enemyX, enemyY)
 	player(playerX, playerY)
 
 	pygame.display.update()
