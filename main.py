@@ -5,7 +5,7 @@ import math
 pygame.init()
 
 screen = pygame.display.set_mode((800, 600))
-pygame.display.set_caption("Space Invader")
+pygame.display.set_caption("Space Pirates")
 
 icon = pygame.image.load("ufo.png")
 pygame.display.set_icon(icon)
@@ -19,14 +19,14 @@ playerY_change = 0
 playerX_change = 0
 
 enemyImage = pygame.image.load("enemy.png")
-enemyX = random.randint(0, 800)
+enemyX = random.randint(0, 736)
 enemyY = random.randint(50, 150)
 enemyX_change = 0.2
 enemyY_change = 40
 
 
 bulletImage = pygame.image.load("bullet.png")
-#bulletX = 392
+bulletX = 0
 bulletY = 520
 bulletX_change = 0.2
 bulletY_change = -0.2
@@ -43,9 +43,17 @@ def bullet(x, y):
 	bullet_state = 'fire'
 	screen.blit(bulletImage, (x + 16, y))
 
-
+def isCollision(x1, y1, x2, y2):
+	distance = math.sqrt(math.pow((x2 - x1), 2) + math.pow((y2 - y1), 2))
+	
+	if distance < 30:
+		return True
+	else:
+		return False
 
 running = True
+
+score = 0
 
 while running:
 	screen.fill((0, 0, 0))
@@ -93,6 +101,16 @@ while running:
 	if bullet_state == 'fire':
 		bullet(bulletX, bulletY)
 		bulletY += bulletY_change
+
+	collision = isCollision(enemyX, enemyY, bulletX, bulletY)
+
+	if collision == True:
+		bulletY = 480
+		bullet_state = "ready"
+		score += 1
+		enemyX = random.randint(0, 736)
+		enemyY = random.randint(50, 150)
+		print(score)
 
 	player(playerX, playerY)
 
