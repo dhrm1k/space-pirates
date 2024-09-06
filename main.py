@@ -1,4 +1,6 @@
 import pygame
+import random
+
 
 pygame.init()
 
@@ -17,17 +19,31 @@ playerY_change = 0
 playerX_change = 0
 
 enemyImage = pygame.image.load("enemy.png")
-enemyX = 20
-enemyY = 20
+enemyX = random.randint(0, 800)
+enemyY = random.randint(50, 150)
 enemyX_change = 0.2
 enemyY_change = 40
 
+
+bulletImage = pygame.image.load("bullet.png")
+bulletX = 392
+bulletY = 520
+bulletX_change = 0.3
+bulletY_change = -0.3
+bullet_state = 'ready'
 
 def player(x, y):
 	screen.blit(playerImage, (x, y))
 
 def enemy(x, y):
 	screen.blit(enemyImage, (x, y))
+
+def bullet(x, y):
+	global bullet_state
+	bullet_state = 'fire'
+	screen.blit(bulletImage, (x, y))
+
+
 
 running = True
 
@@ -42,6 +58,8 @@ while running:
 				playerX_change = -0.3
 			if event.key == pygame.K_RIGHT:
 				playerX_change = 0.3
+			if event.key == pygame.K_SPACE:
+				bullet(playerX, bulletY)
 		if event.type == pygame.KEYUP:
 			if event.key == pygame.K_RIGHT or event.key == pygame.K_LEFT:
 				playerX_change = 0
@@ -61,13 +79,16 @@ while running:
 	elif enemyX >= 736:
 		enemyX_change = -0.2
 		enemyY += enemyY_change
-		
+
 
 	enemyX += enemyX_change
 
-
-
 	enemy(enemyX, enemyY)
+
+	if bullet_state == 'fire':
+		bullet(playerX, bulletY)
+		bulletY += bulletY_change
+
 	player(playerX, playerY)
 
 	pygame.display.update()
